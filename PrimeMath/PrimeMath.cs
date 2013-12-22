@@ -6,7 +6,7 @@ namespace PrimeMath
     {
         public static bool IsComposite(long num)
         {
-            return IsComposite((ulong)Math.Abs(num));
+            return IsComposite(Abs(num));
         }
 
         public static bool IsComposite(ulong num)
@@ -21,7 +21,7 @@ namespace PrimeMath
 
         public static bool IsPrime(long num)
         {
-            return IsPrime((ulong)Math.Abs(num));
+            return IsPrime(Abs(num));
         }
 
         public static bool IsPrime(ulong num)
@@ -40,6 +40,18 @@ namespace PrimeMath
             }
 
             return true;
+        }
+
+        private static ulong Abs(long num)
+        {
+            if (num == long.MinValue)
+            {
+                return ((ulong)long.MaxValue) + 1;
+            }
+            else
+            {
+                return (ulong)Math.Abs(num);
+            }
         }
     }
 }

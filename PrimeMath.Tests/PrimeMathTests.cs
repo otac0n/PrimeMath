@@ -24,6 +24,12 @@
         }
 
         [Test]
+        public void IsComposite_WhenTheNumberIsLongMinValue_ReturnsTrue()
+        {
+            Assert.That(PrimeMath.IsComposite(long.MinValue), Is.True);
+        }
+
+        [Test]
         public void IsComposite_WhenTheNumberIsNegativeOne_ReturnsFalse()
         {
             Assert.That(PrimeMath.IsComposite(-1), Is.False);
@@ -67,6 +73,12 @@
         public void IsPrime_WhenTheNumberIsAKnownPrime_ReturnsTrue(int num)
         {
             Assert.That(PrimeMath.IsPrime(num), Is.True);
+        }
+
+        [Test]
+        public void IsPrime_WhenTheNumberIsLongMinValue_ReturnsFalse()
+        {
+            Assert.That(PrimeMath.IsPrime(long.MinValue), Is.False);
         }
 
         [Test]
