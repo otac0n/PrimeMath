@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1D00D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeMath.Tests", "PrimeMath.Tests\PrimeMath.Tests.csproj", "{BF6608F5-67B5-4549-8DB3-B0D6EE16A8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6608F5-67B5-4549-8DB3-B0D6EE16A8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6608F5-67B5-4549-8DB3-B0D6EE16A8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6608F5-67B5-4549-8DB3-B0D6EE16A8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6608F5-67B5-4549-8DB3-B0D6EE16A8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
