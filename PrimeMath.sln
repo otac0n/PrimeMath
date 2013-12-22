@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeMath", "PrimeMath\PrimeMath.csproj", "{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90C04875-EE33-44EB-80AA-880535F044BE}"
+	ProjectSection(SolutionItems) = preProject
+		CodeAnalysis.ruleset = CodeAnalysis.ruleset
+		CustomDictionary.xml = CustomDictionary.xml
+		license.md = license.md
+		readme.md = readme.md
+		Settings.StyleCop = Settings.StyleCop
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1D00D52-4F63-46F4-875E-9C788EBEAF49}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\nuget.exe = .nuget\nuget.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00B331DF-3597-48EF-89AD-8A2DEEA6AE56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
