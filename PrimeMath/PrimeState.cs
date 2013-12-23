@@ -1,21 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿// -----------------------------------------------------------------------
+// <copyright file="PrimeState.cs" company="(none)">
+//   Copyright © 2013 John Gietzen.  All Rights Reserved.
+//   This source is subject to the MIT license.
+//   Please see license.md for more information.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace PrimeMath
 {
-    internal class PrimeState
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+
+    internal sealed class PrimeState : IDisposable
     {
         private readonly ReaderWriterLockSlim @lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+        private readonly List<ulong> primes;
         private ulong largestValueChecked;
         private int nextPrimeSquaredIndex;
-        private List<ulong> primes;
 
         public PrimeState()
         {
             this.primes = new List<ulong> { 2 };
             this.largestValueChecked = 2;
             this.nextPrimeSquaredIndex = 0;
+        }
+
+        public void Dispose()
+        {
+            this.@lock.Dispose();
         }
 
         public IEnumerable<ulong> EnumeratePrimes()
@@ -25,12 +38,10 @@ namespace PrimeMath
             {
                 ulong prime;
 
-                // acquire (@lock.ReadLock)
-                #region {
                 try
                 {
                     @lock.EnterReadLock();
-                #endregion
+
                     while (primeIndex >= this.primes.Count)
                     {
                         this.FillPrimesBelow(this.largestValueChecked + 1000);
@@ -38,12 +49,10 @@ namespace PrimeMath
 
                     prime = this.primes[primeIndex++];
                 }
-                #region .
                 finally
                 {
                     @lock.ExitReadLock();
                 }
-                #endregion
 
                 yield return prime;
             }
@@ -51,18 +60,14 @@ namespace PrimeMath
 
         public void FillPrimesBelow(ulong max)
         {
-            // release (@lock.ReadLock)
-            #region {
             try
             {
                 @lock.ExitReadLock();
-            #endregion
-                // acquire (@lock.WriteLock)
-                #region {
+
                 try
                 {
                     @lock.EnterWriteLock();
-                #endregion
+
                     var nextPrimeSquared = this.primes[this.nextPrimeSquaredIndex];
                     nextPrimeSquared *= nextPrimeSquared;
 
@@ -93,29 +98,23 @@ namespace PrimeMath
                         }
                     }
                 }
-                #region .
                 finally
                 {
                     @lock.ExitWriteLock();
                 }
-                #endregion
             }
-            #region .
             finally
             {
                 @lock.EnterReadLock();
             }
-            #endregion
         }
 
         public bool IsPrime(ulong value)
         {
-            // acquire (@lock.ReadLock)
-            #region {
             try
             {
                 @lock.EnterReadLock();
-            #endregion
+
                 if (this.largestValueChecked >= value)
                 {
                     return this.primes.BinarySearch(value) >= 0;
@@ -163,12 +162,10 @@ namespace PrimeMath
                     return true;
                 }
             }
-            #region .
             finally
             {
                 @lock.ExitReadLock();
             }
-            #endregion
         }
     }
 }
