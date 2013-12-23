@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace PrimeMath
 {
     internal class PrimeState
     {
+        private readonly ReaderWriterLockSlim @lock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
         private ulong largestValueChecked;
         private int nextPrimeSquaredIndex;
         private List<ulong> primes;
@@ -23,12 +25,25 @@ namespace PrimeMath
             {
                 ulong prime;
 
-                while (primeIndex >= this.primes.Count)
+                // acquire (@lock.ReadLock)
+                #region {
+                try
                 {
-                    this.FillPrimesBelow(this.largestValueChecked + 1000);
-                }
+                    @lock.EnterReadLock();
+                #endregion
+                    while (primeIndex >= this.primes.Count)
+                    {
+                        this.FillPrimesBelow(this.largestValueChecked + 1000);
+                    }
 
-                prime = this.primes[primeIndex++];
+                    prime = this.primes[primeIndex++];
+                }
+                #region .
+                finally
+                {
+                    @lock.ExitReadLock();
+                }
+                #endregion
 
                 yield return prime;
             }
@@ -36,85 +51,124 @@ namespace PrimeMath
 
         public void FillPrimesBelow(ulong max)
         {
-            var nextPrimeSquared = this.primes[this.nextPrimeSquaredIndex];
-            nextPrimeSquared *= nextPrimeSquared;
-
-            for (var num = this.largestValueChecked + 1; num <= max; this.largestValueChecked = num, num++)
+            // release (@lock.ReadLock)
+            #region {
+            try
             {
-                if (num == nextPrimeSquared)
+                @lock.ExitReadLock();
+            #endregion
+                // acquire (@lock.WriteLock)
+                #region {
+                try
                 {
-                    var i = this.nextPrimeSquaredIndex + 1;
-                    this.nextPrimeSquaredIndex = i;
-                    nextPrimeSquared = this.primes[i];
+                    @lock.EnterWriteLock();
+                #endregion
+                    var nextPrimeSquared = this.primes[this.nextPrimeSquaredIndex];
                     nextPrimeSquared *= nextPrimeSquared;
-                    continue;
-                }
 
-                var prime = true;
-                for (var primeIndex = 0; primeIndex < this.nextPrimeSquaredIndex; primeIndex++)
-                {
-                    if (num % this.primes[primeIndex] == 0)
+                    for (var num = this.largestValueChecked + 1; num <= max; this.largestValueChecked = num, num++)
                     {
-                        prime = false;
-                        break;
+                        if (num == nextPrimeSquared)
+                        {
+                            var i = this.nextPrimeSquaredIndex + 1;
+                            this.nextPrimeSquaredIndex = i;
+                            nextPrimeSquared = this.primes[i];
+                            nextPrimeSquared *= nextPrimeSquared;
+                            continue;
+                        }
+
+                        var prime = true;
+                        for (var primeIndex = 0; primeIndex < this.nextPrimeSquaredIndex; primeIndex++)
+                        {
+                            if (num % this.primes[primeIndex] == 0)
+                            {
+                                prime = false;
+                                break;
+                            }
+                        }
+
+                        if (prime)
+                        {
+                            this.primes.Add(num);
+                        }
                     }
                 }
-
-                if (prime)
+                #region .
+                finally
                 {
-                    this.primes.Add(num);
+                    @lock.ExitWriteLock();
                 }
+                #endregion
             }
+            #region .
+            finally
+            {
+                @lock.EnterReadLock();
+            }
+            #endregion
         }
 
         public bool IsPrime(ulong value)
         {
-            if (this.largestValueChecked >= value)
+            // acquire (@lock.ReadLock)
+            #region {
+            try
             {
-                return this.primes.BinarySearch(value) >= 0;
-            }
-            else
-            {
-                var maxFactor = (ulong)Math.Sqrt(value);
-
-                var primeIndex = 0;
-                while (true)
+                @lock.EnterReadLock();
+            #endregion
+                if (this.largestValueChecked >= value)
                 {
-                    var prime = this.primes[primeIndex];
+                    return this.primes.BinarySearch(value) >= 0;
+                }
+                else
+                {
+                    var maxFactor = (ulong)Math.Sqrt(value);
 
-                    if (prime > maxFactor)
+                    var primeIndex = 0;
+                    while (true)
                     {
-                        break;
-                    }
-                    else if (value % prime == 0)
-                    {
-                        return false;
-                    }
+                        var prime = this.primes[primeIndex];
 
-                    primeIndex++;
-
-                    if (primeIndex >= this.primes.Count)
-                    {
-                        if (this.largestValueChecked >= maxFactor)
+                        if (prime > maxFactor)
                         {
                             break;
                         }
-                        else
+                        else if (value % prime == 0)
                         {
-                            this.FillPrimesBelow(maxFactor);
+                            return false;
+                        }
 
-                            if (primeIndex >= this.primes.Count)
+                        primeIndex++;
+
+                        if (primeIndex >= this.primes.Count)
+                        {
+                            if (this.largestValueChecked >= maxFactor)
                             {
                                 break;
                             }
+                            else
+                            {
+                                this.FillPrimesBelow(maxFactor);
+
+                                if (primeIndex >= this.primes.Count)
+                                {
+                                    break;
+                                }
+                            }
                         }
+
+                        prime = this.primes[primeIndex];
                     }
 
-                    prime = this.primes[primeIndex];
+                    return true;
                 }
-
-                return true;
             }
+            #region .
+            finally
+            {
+                @lock.ExitReadLock();
+            }
+            #endregion
         }
     }
 }
