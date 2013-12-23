@@ -19,6 +19,15 @@ namespace PrimeMath
         private static readonly PrimeState State = new PrimeState();
 
         /// <summary>
+        /// Enumerates all prime numbers.
+        /// </summary>
+        /// <returns>An infinite enumerable collection of all prime numbers.</returns>
+        public static IEnumerable<ulong> EnumeratePrimes()
+        {
+            return State.EnumeratePrimes();
+        }
+
+        /// <summary>
         /// Returns a value that indicates whether the specified value is a composite number.
         /// </summary>
         /// <param name="value">A number to test.</param>
@@ -88,6 +97,20 @@ namespace PrimeMath
                 this.primes = new List<ulong> { 2 };
                 this.largestValueChecked = 2;
                 this.nextPrimeSquaredIndex = 0;
+            }
+
+            public IEnumerable<ulong> EnumeratePrimes()
+            {
+                var primeIndex = 0;
+                while (true)
+                {
+                    while (primeIndex >= this.primes.Count)
+                    {
+                        this.FillPrimesBelow(this.largestValueChecked + 1000);
+                    }
+
+                    yield return this.primes[primeIndex++];
+                }
             }
 
             public void FillPrimesBelow(ulong max)
