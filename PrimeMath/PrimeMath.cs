@@ -28,6 +28,43 @@ namespace PrimeMath
         }
 
         /// <summary>
+        /// Enumerates the prime factors of the specified value.
+        /// </summary>
+        /// <param name="value">The value to factor.</param>
+        /// <returns>An enumerable collection of the primer factors of the specified value.</returns>
+        public static IEnumerable<ulong> Factor(long value)
+        {
+            return Factor(Abs(value));
+        }
+
+        /// <summary>
+        /// Enumerates the prime factors of the specified value.
+        /// </summary>
+        /// <param name="value">The value to factor.</param>
+        /// <returns>An enumerable collection of the primer factors of the specified value.</returns>
+        public static IEnumerable<ulong> Factor(ulong value)
+        {
+            if (value == 0)
+            {
+                yield break;
+            }
+
+            foreach (var prime in State.EnumeratePrimes())
+            {
+                while (value % prime == 0)
+                {
+                    value /= prime;
+                    yield return prime;
+                }
+
+                if (prime > value)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns a value that indicates whether the specified value is a composite number.
         /// </summary>
         /// <param name="value">A number to test.</param>
