@@ -4,7 +4,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class PrimeMathTests
+    public class PrimesTests
     {
         private int[] composites = { 4, 6, 8, 9, 10, 1000, 62615533 };
 
@@ -13,7 +13,7 @@
         [Test]
         public void EnumeratePrimes_WhenTakingTheFirstThousand_ReturnsTheFirstThousandPrimes()
         {
-            var actual = PrimeMath.EnumeratePrimes().Take(1000).ToList();
+            var actual = Primes.EnumerateAll().Take(1000).ToList();
 
             var expected = new ulong[]
             {
@@ -76,104 +76,104 @@
         [TestCaseSource("composites")]
         public void IsComposite_WhenTheNumberIsAKnownComposite_ReturnsTrue(int num)
         {
-            Assert.That(PrimeMath.IsComposite(num), Is.True);
+            Assert.That(Primes.IsComposite(num), Is.True);
         }
 
         [Test]
         [TestCaseSource("primes")]
         public void IsComposite_WhenTheNumberIsAKnownPrime_ReturnsFalse(int num)
         {
-            Assert.That(PrimeMath.IsComposite(num), Is.False);
+            Assert.That(Primes.IsComposite(num), Is.False);
         }
 
         [Test]
         public void IsComposite_WhenTheNumberIsLongMinValue_ReturnsTrue()
         {
-            Assert.That(PrimeMath.IsComposite(long.MinValue), Is.True);
+            Assert.That(Primes.IsComposite(long.MinValue), Is.True);
         }
 
         [Test]
         public void IsComposite_WhenTheNumberIsNegativeOne_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsComposite(-1), Is.False);
+            Assert.That(Primes.IsComposite(-1), Is.False);
         }
 
         [Test]
         public void IsComposite_WhenTheNumberIsOne_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsComposite(1), Is.False);
+            Assert.That(Primes.IsComposite(1), Is.False);
         }
 
         [Test]
         [TestCaseSource("composites")]
         public void IsComposite_WhenTheNumberIsTheNegativeOfAKnownComposite_ReturnsTrue(int num)
         {
-            Assert.That(PrimeMath.IsComposite(-num), Is.True);
+            Assert.That(Primes.IsComposite(-num), Is.True);
         }
 
         [Test]
         [TestCaseSource("primes")]
         public void IsComposite_WhenTheNumberIsTheNegativeOfAKnownPrime_ReturnsFalse(int num)
         {
-            Assert.That(PrimeMath.IsComposite(-num), Is.False);
+            Assert.That(Primes.IsComposite(-num), Is.False);
         }
 
         [Test]
         public void IsComposite_WhenTheNumberIsZero_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsComposite(0), Is.False);
+            Assert.That(Primes.IsComposite(0), Is.False);
         }
 
         [Test]
         [TestCaseSource("composites")]
         public void IsPrime_WhenTheNumberIsAKnownComposite_ReturnsFalse(int num)
         {
-            Assert.That(PrimeMath.IsPrime(num), Is.False);
+            Assert.That(Primes.IsPrime(num), Is.False);
         }
 
         [Test]
         [TestCaseSource("primes")]
         public void IsPrime_WhenTheNumberIsAKnownPrime_ReturnsTrue(int num)
         {
-            Assert.That(PrimeMath.IsPrime(num), Is.True);
+            Assert.That(Primes.IsPrime(num), Is.True);
         }
 
         [Test]
         public void IsPrime_WhenTheNumberIsLongMinValue_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsPrime(long.MinValue), Is.False);
+            Assert.That(Primes.IsPrime(long.MinValue), Is.False);
         }
 
         [Test]
         public void IsPrime_WhenTheNumberIsNegativeOne_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsPrime(-1), Is.False);
+            Assert.That(Primes.IsPrime(-1), Is.False);
         }
 
         [Test]
         public void IsPrime_WhenTheNumberIsOne_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsPrime(1), Is.False);
+            Assert.That(Primes.IsPrime(1), Is.False);
         }
 
         [Test]
         [TestCaseSource("composites")]
         public void IsPrime_WhenTheNumberIsTheNegativeOfAKnownComposite_ReturnsFalse(int num)
         {
-            Assert.That(PrimeMath.IsPrime(-num), Is.False);
+            Assert.That(Primes.IsPrime(-num), Is.False);
         }
 
         [Test]
         [TestCaseSource("primes")]
         public void IsPrime_WhenTheNumberIsTheNegativeOfAKnownPrime_ReturnsTrue(int num)
         {
-            Assert.That(PrimeMath.IsPrime(-num), Is.True);
+            Assert.That(Primes.IsPrime(-num), Is.True);
         }
 
         [Test]
         public void IsPrime_WhenTheNumberIsZero_ReturnsFalse()
         {
-            Assert.That(PrimeMath.IsPrime(0), Is.False);
+            Assert.That(Primes.IsPrime(0), Is.False);
         }
     }
 }

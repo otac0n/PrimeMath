@@ -14,7 +14,7 @@ namespace PrimeMath
     /// <summary>
     /// Provides static methods for prime-related mathematical functions.
     /// </summary>
-    public static class PrimeMath
+    public static class Primes
     {
         private static readonly PrimeState State = new PrimeState();
 
@@ -22,7 +22,7 @@ namespace PrimeMath
         /// Enumerates all prime numbers.
         /// </summary>
         /// <returns>An infinite enumerable collection of all prime numbers.</returns>
-        public static IEnumerable<ulong> EnumeratePrimes()
+        public static IEnumerable<ulong> EnumerateAll()
         {
             return State.EnumeratePrimes();
         }
@@ -42,6 +42,7 @@ namespace PrimeMath
         /// </summary>
         /// <param name="value">The value to factor.</param>
         /// <returns>An enumerable collection of the primer factors of the specified value.</returns>
+        [CLSCompliant(false)]
         public static IEnumerable<ulong> Factor(ulong value)
         {
             if (value == 0)

@@ -48,7 +48,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PrimeMath.cs" />
+    <Compile Include="Primes.cs" />
     <Compile Include="PrimeState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
